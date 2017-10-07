@@ -39,7 +39,7 @@ return [
          * any of the commands specified below.
          */
         'commands' => [
-            // App\Commands\YourNewCommand::class,
+            App\Commands\InitCommand::class,
         ],
 
         /*

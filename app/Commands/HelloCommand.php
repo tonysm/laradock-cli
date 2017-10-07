@@ -5,11 +5,6 @@ namespace App\Commands;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
-// use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Schema;
-// use Illuminate\Support\Facades\Cache;
-// use Illuminate\Support\Facades\File;
-
 class HelloCommand extends Command
 {
     /**
@@ -17,14 +12,14 @@ class HelloCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'hello {name=Artisan}';
+    protected $signature = 'hello';
 
     /**
      * The description of the command.
      *
      * @var string
      */
-    protected $description = 'The hello app command';
+    protected $description = 'Welcome to LDK helper.';
 
     /**
      * Execute the command. Here goes the code.
@@ -33,11 +28,8 @@ class HelloCommand extends Command
      */
     public function handle(): void
     {
-        $this->info('Love beautiful code? We do too.');
-
-        $this->notify('Hello '.$this->argument('name'), 'Enjoy the fresh air!');
-
-        $this->comment('Wanna see more? Type `php your-app-name list`');
+        $this->info('Love docker and Laradock? We do too.');
+        $this->comment('Want to see more? Run: ldk list');
     }
 
     /**
