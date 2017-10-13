@@ -1,139 +1,161 @@
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
-<p align="center">
-  <a href="https://styleci.io/repos/96572957"><img src="https://styleci.io/repos/96572957/shield" alt="StyleCI Status"></img></a>
-  <a href="https://travis-ci.org/laravel-zero/framework"><img src="https://img.shields.io/travis/laravel-zero/framework/stable.svg?style=flat-square" alt="Build Status"></img></a>
-  <a href="https://scrutinizer-ci.com/g/laravel-zero/framework"><img src="https://img.shields.io/scrutinizer/g/laravel-zero/framework.svg?style=flat-square" alt="Quality Score"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://poser.pugx.org/laravel-zero/framework/v/stable.svg" alt="Latest Stable Version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></img></a>
-</p>
+# Laradock CLI helper
 
-## This is a community project and not an "official" Laravel one
+This project aims to set a couple of convetions to ease developing using the already easy [Laradock](https://github.com/laradock/laradock) project.
 
-Laravel Zero was created and maintained by [Nuno Maduro](https://github.com/nunomaduro). Laravel Zero is a micro-framework that provides an elegant starting point for your next console application. **Unofficial** and customized version of Laravel optimized for building console/shell/command-line applications.
+## Dependencies
 
-- Build on top of the [Laravel](https://laravel.com) components.
-- Allows the installation of the [Database/Filesystem Components](#components).
-- Built with [PHP 7](https://php.net) using modern coding standards.
-- Ships with a [standalone compiler](#build-a-standalone-application) and a [Scheduler](#scheduler) component.
-- Automatic dependency injection on commands and support of [Laravel](https://laravel.com) Service Providers.
-- Supports [desktop notifications](https://github.com/laravel-zero/laravel-zero) on Linux, Windows & MacOS.
+* You need Docker and docker-compose installed (latest versions)
+* You need PHP 7.1 locally
+* You also need git configured locally
 
-## Installation & Usage
+## Conventions
 
-> **Requires [PHP 7.1+](https://php.net/releases/)**
+There's nothing wrong with a bit of conventions over a nice tool to ease development. This CLI tool will help you setup and use Laradock in a shared project environment. The idea is that you are going to have a shared laradock setup for all your projects.
 
-Via Laravel Zero Installer
+Before start using it, you need to arrange your projects in the same folder, so something like this:
 
 ```bash
-composer global require laravel-zero/installer
+/Projects
+├── project-a
+└── project-b
+
+2 directories, 0 file
 ```
+
+Laradock will be configured in the same level of your projects, and you are to configure and vhosts for each of your projects that you want to use with the laradock setup.
+
+## Getting Started
+
+[TODO]
+
+You can install the `ldk` CLI tool via composer:
 
 ```bash
-laravel-zero new your-app-name
+composer global require tonysm/ldk-cli
 ```
 
-Or Simply create a new Laravel Zero project using [Composer](https://getcomposer.org):
+After doing this, you should have the `ldk` CLI helper available.
+
+### Setting up
+
+The first thing you should do is cd'ing into Projects folder and run:
 
 ```bash
-composer create-project --prefer-dist laravel-zero/laravel-zero your-app-name
+cd Projects
+ldk init
+> Cloning the laradock folder, this might take some time..
+> Configuring the your global setup...
+> Done!
 ```
 
-Your Laravel Zero project will be then created in the `your-app-name` folder. Laravel Zero provides a default command placed in the `app/HelloCommand.php` file which will be executed by default. To execute it, run the following command in your app's directory:
+After this command, you should have an `.ldk/` folder at your Project's root folder, like this:
 
 ```bash
-php your-app-name
+/Projects
+├── .ldk
+├── project-a
+└── project-b
+
+3 directories, 0 files
 ```
 
-You can rename your app anytime by running the following command in your app directory:
+### Booting our base containers
 
-```sh
-php your-app-name app:rename new-name
+This step is needed, because any configuration is going to be added to the Docker containers as well. Run:
+
+```bash
+cd Projects/project-a
+ldk up
+> Detected no container running...
+> Starting containers: nginx, workspace
+> Done!
 ```
 
-You may review the documentation of the Artisan Console component [on Laravel's Official Website](https://laravel.com/docs/5.5/artisan).
+Your workspace containers are now running, but you haven't configured your sites yet.
 
-<a href="scheduler"></a>
+### Adding your project vhost
 
-## Scheduler
+[TODO]
 
-Laravel Zero ships with the [Task Scheduling](https://laravel.com/docs/5.5/scheduling) of Laravel, to use it you may need to add the following Cron entry to your server:
+To add your site vhost, you need to run:
 
-```
-* * * * * php /path-to-your-project/your-app-name schedule:run >> /dev/null 2>&1
-```
-
-You may define all of your scheduled tasks in the `schedule` method of the command:
-```php
-    public function schedule(Schedule $schedule): void
-    {
-        $schedule->command(static::class)->everyMinute();
-    }
-```
-
-<a href="components"></a>
-
-## Components
-
-Laravel Zero allows you to install a Database component out of the box to push your console app to the next level. As you might have already guessed it is Laravel's [Eloquent](https://laravel.com/docs/5.5/eloquent) component that works with the same breeze in Laravel Zero environment too.
-
-If you want to move files to multiple providers like AwsS3 and Dropbox, you may consider the [Filesystem](https://laravel.com/docs/5.5/filesystem) component.
-
-To install the components run the following command in your Laravel Zero app directory:
-
-```sh
-php your-app-name component:install
+```bash
+cd Projects/project-a
+ldk sites:add project-a public/
+> Adding new site http://project-a.ldk/ with document root: public/
+> Site added!
+> Restarting the nginx container...
+> Done!
+> Do you want to edit your hosts file now (don't worry, we are openning up your editor of choice so you can edit it yourself) [Y/n]? yes
+...
+> Done!
 ```
 
-This will allow you to select the component to install from the list of available components.
+### Adding a database
 
-<a name="configuration"></a>
+First of all, you need to also add a database for your project, you can do it by:
 
-## Configuration
-
-The configuration of your console application goes in `config\config.php`. In this file, you should define your application's list of commands and your Laravel Service Providers in this file.
-
-```php
-
-        'default-command' => App\Commands\HelloCommand::class,
-
-        'commands' => [
-            App\Commands\AddUserCommand::class,
-        ],
+```bash
+ldk db:add projecta
+> Which database do you want to use?
+> [1] MySQL
+> [2] Postgres
+> Option: 1
+> MySQL container is not running. Booting it...
+> Done!
+> Creating `projecta` database in your MySQL container
+> Done!
 ```
 
-<a name="build-a-standalone-application"></a>
-## Building a standalone application
+Done! Your database is now created. You can use these credentials (depending on the database provider you chose):
 
-Your Laravel Zero project, by default, allows you to build a standalone PHAR archive to ease the deployment or the distribution of your project.
+MySQL:
 
-```sh
-php your-app-name app:build <your-build-name>
+[MISSING]
+
+PostgreSQL:
+
+[MISSING]
+
+MariaDB:
+
+[MISSING]
+
+Remember to change your `.env` with these configs.
+
+### Running migrations
+
+Now we need to run the migrations for our projecta. Run:
+
+```bash
+cd Projects/project-a
+ldk artisan migrate
+> Goinging to inside the workspace container at `~/project-a` folder...
+> php artisan migrate
+> Migration table created.
+> Running migration 00000_create_users_table...
+> ...
+> Done!
 ```
 
-The build will provide a single phar archive, ready to use, containing all the code of your project and its dependencies.
+You can also use the `ldk artisan` command from your project, it will forward any calls to the artisan inside the Laradock container for you.
 
-Note that the generated file will still need a PHP installation respecting your project's requirements (PHP version, extensions, etc.) on the users' computers to be used. You will then be able to execute it directly:
+### Adding Redis
 
-```sh
-./builds/<your-build-name>
+Laradock has lots of services you can use on your apps, to demonstrate that we are going to add Redis to our application. First, you need to boot the `redis` service, like so:
+
+```bash
+cd Projects/project-a
+ldk up redis
+> Booting up redis container...
+> Done!
 ```
 
-or on Windows:
+Great, now you can change your redis credentials to point to:
 
-```sh
-C:\application\path> php builds\<your-build-name>
+```bash
+REDIS_HOST=redis
 ```
 
-## Contributing
+and you are good to go.
 
-Thank you for considering to contribute to Laravel Zero. All the contribution guidelines are mentioned [here](CONTRIBUTING.md).
-
-## Stay In Touch
-
-You can have a look at the [CHANGELOG](CHANGELOG.md) & [Releases](https://github.com/laravel-zero/laravel-zero/releases) for constant updates & detailed information about the changes. You can also follow the twitter account for latest announcements or just come say hi!: [@laravelzero](https://twitter.com/laravelzero)
-
-## License
-
-Laravel Zero is an open-sourced software licensed under the [MIT license](LICENSE.md).
