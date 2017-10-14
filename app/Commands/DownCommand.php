@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Commands\Databases;
+namespace App\Commands;
 
 use App\CliHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
-class AddDbCommand extends Command
+class DownCommand extends Command
 {
     use CliHelper;
 
@@ -16,14 +16,14 @@ class AddDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'db:create {dbname}';
+    protected $signature = 'down';
 
     /**
      * The description of the command.
      *
      * @var string
      */
-    protected $description = 'Creates the database.';
+    protected $description = 'Destroys the container and networks.';
 
     /**
      * Execute the command. Here goes the code.
@@ -32,6 +32,7 @@ class AddDbCommand extends Command
      */
     public function handle(): void
     {
+        $this->info('Destroying containers...');
         $pwd = getcwd();
         $ldkPath = dirname($pwd) . DIRECTORY_SEPARATOR . '.ldk' . DIRECTORY_SEPARATOR;
         $projectFolderBaseName = basename($pwd);
@@ -39,10 +40,7 @@ class AddDbCommand extends Command
         if (! File::exists($ldkPath)) {
             $this->error('You have not configured Laradock yet.');
         } else {
-            $dbName = $this->argument('dbname');
-
-            $this->info("Creating database '{$dbName}' on mysql...");
-            $this->runQuietly("cd {$ldkPath} && docker-compose exec mysql mysql -u root -proot -e \"create database {$dbName}; GRANT ALL PRIVILEGES ON $dbName.* TO 'default'@'%'\"");
+            $this->runThru("cd {$ldkPath} && docker-compose down");
             $this->info('Done!');
         }
     }

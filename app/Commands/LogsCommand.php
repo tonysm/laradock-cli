@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Commands\Databases;
+namespace App\Commands;
 
 use App\CliHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
-class AddDbCommand extends Command
+class LogsCommand extends Command
 {
     use CliHelper;
 
@@ -16,14 +16,14 @@ class AddDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'db:create {dbname}';
+    protected $signature = 'logs {args?*}';
 
     /**
      * The description of the command.
      *
      * @var string
      */
-    protected $description = 'Creates the database.';
+    protected $description = 'Watches the logs.';
 
     /**
      * Execute the command. Here goes the code.
@@ -39,11 +39,8 @@ class AddDbCommand extends Command
         if (! File::exists($ldkPath)) {
             $this->error('You have not configured Laradock yet.');
         } else {
-            $dbName = $this->argument('dbname');
-
-            $this->info("Creating database '{$dbName}' on mysql...");
-            $this->runQuietly("cd {$ldkPath} && docker-compose exec mysql mysql -u root -proot -e \"create database {$dbName}; GRANT ALL PRIVILEGES ON $dbName.* TO 'default'@'%'\"");
-            $this->info('Done!');
+            $args = (array) $this->argument('args') ?: ['-f'];
+            $this->runThru(trim("cd {$ldkPath} && docker-compose logs ". implode(' ', $args)));
         }
     }
 }

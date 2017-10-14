@@ -46,6 +46,8 @@ return [
             App\Commands\Sites\AddSiteCommand::class,
             App\Commands\ArtisanCommand::class,
             App\Commands\Databases\AddDbCommand::class,
+            App\Commands\LogsCommand::class,
+            App\Commands\DownCommand::class,
         ],
 
         /*

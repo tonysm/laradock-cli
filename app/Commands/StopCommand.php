@@ -32,7 +32,7 @@ class StopCommand extends Command
      */
     public function handle(): void
     {
-        $this->info('Stoping containers...');
+        $this->info('Stopping containers...');
         $pwd = getcwd();
         $ldkPath = dirname($pwd) . DIRECTORY_SEPARATOR . '.ldk' . DIRECTORY_SEPARATOR;
         $projectFolderBaseName = basename($pwd);
