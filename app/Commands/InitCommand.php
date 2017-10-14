@@ -41,6 +41,8 @@ class InitCommand extends Command
                 exit;
             });
 
+            $this->runQuietly("cd .ldk && cp env-example .env");
+
             $this->info('Configuring the your global setup...');
             $this->info('Done!');
             $this->notify('Finished setup', 'LDK successfully installed!');

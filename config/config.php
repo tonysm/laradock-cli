@@ -40,6 +40,12 @@ return [
          */
         'commands' => [
             App\Commands\InitCommand::class,
+            App\Commands\UpCommand::class,
+            App\Commands\PsCommand::class,
+            App\Commands\StopCommand::class,
+            App\Commands\Sites\AddSiteCommand::class,
+            App\Commands\ArtisanCommand::class,
+            App\Commands\Databases\AddDbCommand::class,
         ],
 
         /*

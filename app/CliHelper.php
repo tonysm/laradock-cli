@@ -18,4 +18,9 @@ trait CliHelper
             $onError($process, $output);
         }
     }
+
+    protected function runThru($command)
+    {
+        passthru($command);
+    }
 }
