@@ -2,7 +2,10 @@
 
 namespace App\Commands\Sites;
 
+use Spyc;
+use App\Sites;
 use App\CliHelper;
+use App\Yaml\SpycInterpreter;
 use Illuminate\Support\Facades\File;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
@@ -43,14 +46,10 @@ class AddsiteCommand extends Command
         if (! File::exists($ldkPath)) {
             $this->error('You have not configured Laradock yet.');
         } else {
-            $vhostConfig = file_get_contents($ldkPath . '/nginx/sites/laravel.conf.example');
-
-            $vhostConfig = str_replace('laravel.dev', $host, $vhostConfig);
-            $vhostConfig = str_replace('/laravel/public', "/{$projectFolderBaseName}/{$root}", $vhostConfig);
-
-            file_put_contents("{$ldkPath}/nginx/sites/{$projectFolderBaseName}.conf", $vhostConfig);
-
-            $this->runThru("cd $ldkPath && docker-compose restart nginx");
+            (new Sites($ldkPath, new SpycInterpreter(new Spyc())))
+                ->addVirtualHost($projectFolderBaseName, $host, $root)
+                ->registerContainerAliases($host)
+                ->restartRunningServicesAndNetworks();
         }
     }
 }

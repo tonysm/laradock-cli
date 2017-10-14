@@ -16,7 +16,8 @@
     "require": {
         "php": ">=7.1",
         "illuminate/filesystem": "5.5.*",
-        "laravel-zero/framework": "~3.6"
+        "laravel-zero/framework": "~3.6",
+        "mustangostang/spyc": "^0.6.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
