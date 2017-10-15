@@ -1,6 +1,6 @@
 # Laradock CLI helper
 
-This project aims to set a couple of convetions to ease developing using the already easy [Laradock](https://github.com/laradock/laradock) project.
+This project aims to set a couple of conventions to ease developing using the already easy [Laradock](https://github.com/laradock/laradock) project.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ This project aims to set a couple of convetions to ease developing using the alr
 
 There's nothing wrong with a bit of conventions over a nice tool to ease development. This CLI tool will help you setup and use Laradock in a shared project environment. The idea is that you are going to have a shared laradock setup for all your projects.
 
-Before start using it, you need to arrange your projects in the same folder, so something like this:
+Before you start using it, you need to arrange your projects in the same folder, so something like this:
 
 ```bash
 /Projects
@@ -22,7 +22,7 @@ Before start using it, you need to arrange your projects in the same folder, so 
 2 directories, 0 file
 ```
 
-Laradock will be configured in the same level of your projects, and you are to configure and vhosts for each of your projects that you want to use with the laradock setup.
+Laradock will be configured in the same level of your projects, and you are to configure a vhosts for each of your projects that you want to use with the laradock setup.
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ After doing this, you should have the `ldk` CLI helper available.
 
 ### Setting up
 
-The first thing you should do is cd'ing into Projects folder and run:
+The first thing you should do is cd'ing into the Projects folder and run:
 
 ```bash
 cd Projects
@@ -86,14 +86,14 @@ ldk sites:add project-a public/
 > Site added!
 > Restarting the nginx container...
 > Done!
-> Do you want to edit your hosts file now (don't worry, we are openning up your editor of choice so you can edit it yourself) [Y/n]? yes
+> Do you want to edit your hosts file now (don't worry, we are opening up your editor of choice so you can edit it yourself) [Y/n]? yes
 ...
 > Done!
 ```
 
 ### Adding a database
 
-First of all, you need to also add a database for your project, you can do it by:
+You also need to add a database for your project, you can do it by:
 
 ```bash
 ldk db:add projecta
@@ -151,7 +151,7 @@ ldk up redis
 > Done!
 ```
 
-Great, now you can change your redis credentials to point to:
+Great, now you can change your redis configuration to point to:
 
 ```bash
 REDIS_HOST=redis
