@@ -16,12 +16,13 @@
     "require": {
         "php": ">=7.1",
         "illuminate/filesystem": "5.5.*",
-        "laravel-zero/framework": "~3.6",
+        "laravel-zero/framework": "~3.7",
         "mustangostang/spyc": "^0.6.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
+        "nunomaduro/collision": "^1.1",
         "phpunit/phpunit": "~6.3"
     },
     "autoload": {
