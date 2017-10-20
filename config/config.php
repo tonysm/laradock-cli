@@ -11,7 +11,7 @@ return [
         /*
          * Here goes the application name.
          */
-        'name' => 'LDK CLI',
+        'name' => 'Laradock CLI',
 
         /*
          * Here goes the application version.

@@ -35,6 +35,8 @@ The Laradock CLI is released as single PHP Phar file. You have to download it an
 ➜  laradock-cli-example curl -L https://github.com/tonysm/laradock-cli/releases/download/0.2/ldk > ldk
 ➜  laradock-cli-example chmod +x ldk
 ➜  laradock-cli-example ./ldk list
+Laradock CLI 0.3
+
 Usage:
   command [options] [arguments]
 
