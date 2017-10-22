@@ -11,12 +11,12 @@ return [
         /*
          * Here goes the application name.
          */
-        'name' => 'Laravel Zero',
+        'name' => 'Laradock CLI',
 
         /*
          * Here goes the application version.
          */
-        'version' => '1.0.0',
+        'version' => '0.3',
 
         /*
          * If true, development commands won't be available as the app
