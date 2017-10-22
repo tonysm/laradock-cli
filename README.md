@@ -19,7 +19,7 @@ There's nothing wrong with a bit of conventions over a nice tool to ease develop
 Before you start using it, you need to arrange your projects in the same folder, so something like this:
 
 ```bash
-➜  laradock-cli-example tree -L 1 
+laradock-cli-example $ tree -L 1 
 .
 ├── project-a
 └── project-b
@@ -32,9 +32,9 @@ Laradock will be configured in the same level of your projects, and you are to c
 The Laradock CLI is released as single PHP Phar file. You have to download it and give it permission to execute, like this:
 
 ```bash
-➜  laradock-cli-example curl -L https://github.com/tonysm/laradock-cli/releases/download/0.3/ldk > ldk
-➜  laradock-cli-example chmod +x ldk
-➜  laradock-cli-example ./ldk list
+laradock-cli-example $ curl -L https://github.com/tonysm/laradock-cli/releases/download/0.3/ldk > ldk
+laradock-cli-example $ chmod +x ldk
+laradock-cli-example $ ./ldk list
 Laradock CLI 0.3
 
 Usage:
@@ -76,7 +76,7 @@ After doing this, you can move it to a place that is available in your `$PATH` v
 The first thing you should do is cd'ing into the Projects folder and run:
 
 ```bash
-➜  laradock-cli-example ldk init
+laradock-cli-example $ ldk init
 Cloning the laradock folder, this might take some time...
 Configuring the your global setup...
 Done!
@@ -85,7 +85,7 @@ Done!
 After this command, you should have an `.ldk/` folder at your Project's root folder, like this:
 
 ```bash
-➜  laradock-cli-example tree -L 1 -a .
+laradock-cli-example $ tree -L 1 -a .
 .
 ├── .ldk
 ├── project-a
@@ -112,8 +112,8 @@ If you happen to have something running locally, like Laravel Valet, or Nginx, o
 This step is needed, because any configuration is going to be added to the Docker containers as well. Run:
 
 ```bash
-➜  laradock-cli-example cd project-a 
-➜  project-a ldk up
+laradock-cli-example $ cd project-a 
+project-a $ ldk up
 Starting the desired services...
 Creating network "ldk_default" with the default driver
 Creating network "ldk_frontend" with driver "bridge"
@@ -155,7 +155,7 @@ Your workspace containers are now running, but you haven't configured your sites
 To add your site vhost, you need to run:
 
 ```bash
-➜  project-a ldk sites:add project-a.ldk public
+project-a $ ldk sites:add project-a.ldk public
 Adding new site http://project-a.ldk/ with document root: public/
 Stopping ldk_nginx_1 ... done
 Stopping ldk_php-fpm_1 ... done
@@ -193,7 +193,7 @@ If you try to access it in the browser now, you should see the Laravel welcome p
 You also need to add a database for your project, you can do it by:
 
 ```bash
-➜  project-a ldk db:create projectadb
+project-a $ ldk db:create projectadb
 Creating database 'projectadb' on mysql...
 Done!
 ```
@@ -201,7 +201,7 @@ Done!
 Your database is now configured. Remember to change your `.env` with these configs. We use the Laradock defaults here, so you can check the credentials in your `.ldk/.env` file we installed:
 
 ```bash
-➜  project-a cat ../.ldk/.env | grep MYSQL
+project-a $ cat ../.ldk/.env | grep MYSQL
 PHP_FPM_INSTALL_MYSQLI=false
 ### MYSQL ##############################################################################################################
 MYSQL_VERSION=8.0
@@ -215,7 +215,7 @@ MYSQL_ROOT_PASSWORD=root
 So our project-a `.env` file should be:
 
 ```bash
-➜  project-a cat .env | grep DB_
+project-a $ cat .env | grep DB_
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -229,14 +229,14 @@ DB_PASSWORD=secret
 Let's use the Laravel scaffolding for authentication. Run:
 
 ```bash
-➜  project-a ldk artisan make:auth
+project-a $ ldk artisan make:auth
 Authentication scaffolding generated successfully.
 ```
 
 You can see the "Login" and "Register" buttons in the welcome page, but if you try to use the forms, it won't work. We have not ran the migrations yet. Now we need to run the migrations for our projecta. Run:
 
 ```bash
-➜  project-a ldk artisan migrate
+project-a $ ldk artisan migrate
 Migration table created successfully.
 Migrating: 2014_10_12_000000_create_users_table
 Migrated:  2014_10_12_000000_create_users_table
@@ -253,7 +253,7 @@ Now, the application should work just fine.
 Laradock has lots of services you can use on your apps, to demonstrate its power, we are going to add Redis to our application. First, you need to boot the `redis` service, like so:
 
 ```bash
-➜  project-a ldk up redis
+project-a $ ldk up redis
 Starting the desired services...
 Creating ldk_redis_1 ... 
 Creating ldk_redis_1 ... done
@@ -263,7 +263,7 @@ Done!
 Great, now you can change your redis configuration to point to:
 
 ```bash
-➜  project-a cat .env | grep REDIS
+project-a $ cat .env | grep REDIS
 REDIS_HOST=redis
 REDIS_PASSWORD=null
 REDIS_PORT=6379
@@ -278,7 +278,7 @@ If you use the Redis Facade, things are just working.
 You can more than one app at a time. Let's say you have 2 apps that interact with each other, as we have now:
 
 ```bash
-➜  laradock-cli-example tree -L 1 .
+laradock-cli-example $ tree -L 1 .
 .
 ├── project-a
 └── project-b
@@ -289,7 +289,7 @@ You can more than one app at a time. Let's say you have 2 apps that interact wit
 Change directory into the `project-b` app. You don't need to run `ldk up` anymore, as it's already running. You can check if it's running with:
 
 ```bash
-➜  project-b ldk ps
+project-b $ ldk ps
 Listing running containers...
        Name                     Command               State                     Ports                   
 -------------------------------------------------------------------------------------------------------
@@ -304,7 +304,7 @@ ldk_workspace_1      /sbin/my_init                    Up       0.0.0.0:2222->22/
 Now we only have to add the domain for our `project-b`:
 
 ```bash
-➜  project-b ldk sites:add project-b.ldk 
+project-b $ ldk sites:add project-b.ldk 
 Adding new site http://project-b.ldk/ with document root: public/
 Stopping ldk_redis_1 ... done
 Stopping ldk_nginx_1 ... done
