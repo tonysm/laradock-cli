@@ -32,7 +32,7 @@ Laradock will be configured in the same level of your projects, and you are to c
 The Laradock CLI is released as single PHP Phar file. You have to download it and give it permission to execute, like this:
 
 ```bash
-➜  laradock-cli-example curl -L https://github.com/tonysm/laradock-cli/releases/download/0.2/ldk > ldk
+➜  laradock-cli-example curl -L https://github.com/tonysm/laradock-cli/releases/download/0.3/ldk > ldk
 ➜  laradock-cli-example chmod +x ldk
 ➜  laradock-cli-example ./ldk list
 Laradock CLI 0.3
