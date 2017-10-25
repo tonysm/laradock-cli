@@ -337,7 +337,7 @@ Creating ldk_nginx_1 ...
 Creating ldk_nginx_1 ... done
 ```
 
-We are not using a database for this project, but you can add one if you need and change the credentials locally in this project's `.env` file. You can now access (http://project-b.ldk)(http://project-b.ldk).
+We are not using a database for this project, but you can add one if you need and change the credentials locally in this project's `.env` file. You can now access [http://project-b.ldk](http://project-b.ldk).
 
 You might have noticed that we are restarting every container when you add a new domain. This happens because we change some configurations in our Nginx container to alias it with all of our domains. So, internally, your containers can talk to each other using their domains, `http://project-a.ldk` and `http://project-b.ldk`, respectively. This would not be possible otherwise.
 
